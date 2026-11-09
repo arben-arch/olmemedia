@@ -19,6 +19,7 @@
   --line: #DAD5C3;
   --paper: #FFFDF8;
   --soft-on-olive: #D9DCC4;
+  --reel-player-height: calc(min(100vw - 40px, 400px) * 1.25 + 220px);
   color-scheme: light;
 }
 
@@ -111,6 +112,31 @@ a:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; border-ra
 .section { padding-block: 32px; }
 .section + .section { padding-top: 0; }
 .section h2, .close h2 { font-size: 1.75rem; line-height: 1.15; font-weight: 700; letter-spacing: -.01em; color: var(--olive); }
+.audience { margin-top: 8px; color: var(--mute); font-size: .8125rem; line-height: 1.3; }
+.audience b { display: block; margin-bottom: 2px; color: var(--olive); font-size: clamp(3rem, 15vw, 4.5rem); line-height: .98; letter-spacing: -.04em; font-weight: 800; }
+.brand-list { display: grid; gap: 12px; margin-top: 18px; }
+.brand-card { padding: 16px; border-radius: 16px; background: var(--paper); }
+.brand-mark { min-height: 56px; display: flex; align-items: center; gap: 10px; }
+.wonder-mark img { display: block; width: 45px; height: auto; }
+.wonder-mark strong { color: var(--olive); font-size: 1.375rem; line-height: 1.1; letter-spacing: -.02em; }
+.novity-mark img { width: 150px; height: auto; }
+.brand-description { margin-top: 8px; font-size: .9375rem; line-height: 1.35; color: var(--mute); }
+.followers { display: flex; align-items: center; gap: clamp(8px, 4vw, 18px); margin-top: 12px; }
+.followers li { display: flex; align-items: center; gap: 5px; font-size: .9375rem; line-height: 1.3; }
+.followers li svg { display: block; width: 22px; height: 22px; flex: 0 0 22px; }
+.followers li span { color: var(--olive); font-weight: 800; }
+.video-intro { margin-top: 18px; color: var(--olive); font-size: 1.125rem; line-height: 1.2; font-weight: 700; }
+.video-slots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 8px; }
+.video-item { min-width: 0; margin: 0; }
+.reel-link { position: relative; display: block; width: 100%; aspect-ratio: 9 / 16; overflow: hidden; border-radius: 12px; background: var(--paper); text-decoration: none; }
+.reel-link img { width: 100%; height: 100%; object-fit: cover; }
+.reel-play { position: absolute; left: 50%; top: 50%; width: 42px; height: 42px; transform: translate(-50%, -50%); border-radius: 50%; background: rgb(55 69 28 / 88%); }
+.reel-play::after { content: ""; position: absolute; left: 17px; top: 12px; border-top: 9px solid transparent; border-bottom: 9px solid transparent; border-left: 13px solid var(--cream); }
+.reel-label { position: absolute; inset: auto 0 0; padding: 26px 9px 8px; color: #fff; font-size: .75rem; line-height: 1.2; text-align: center; background: linear-gradient(transparent, rgb(0 0 0 / 75%)); }
+.video-item figcaption { margin-top: 5px; color: var(--mute); font-size: .8125rem; line-height: 1.25; text-align: center; }
+.reel-disclosure { margin-top: 8px; color: var(--mute); font-size: .8125rem; line-height: 1.3; }
+.video-item.is-playing { grid-column: 1 / -1; }
+.reel-frame { display: block; width: 100%; max-width: 400px; height: var(--reel-player-height); margin-inline: auto; border: 0; border-radius: 12px; background: var(--paper); }
 
 /* What we do */
 .trio { margin-top: 14px; display: grid; gap: 10px; }
@@ -271,6 +297,8 @@ a:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; border-ra
   .section { padding-block: 64px; }
   .section h2, .close h2 { font-size: 2.25rem; }
   .trio { grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+  .brand-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .brand-card { padding: 20px; }
   .tile { display: block; padding: 20px; }
   .tile h3 { margin-top: 14px; }
   .steps { margin-top: 24px; grid-template-columns: repeat(2, 1fr); gap: 20px 32px; }
@@ -291,6 +319,10 @@ a:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; border-ra
   .doc h1, .lost h1 { font-size: 2.75rem; }
   .details > div { display: grid; grid-template-columns: 13rem 1fr; gap: 16px; }
   .details dd { margin-top: 0; }
+}
+
+@media (min-width: 900px) {
+  .video-slots { gap: 16px; }
 }
 
 @media (min-width: 1000px) {
