@@ -19,7 +19,6 @@
   --line: #DAD5C3;
   --paper: #FFFDF8;
   --soft-on-olive: #D9DCC4;
-  --reel-player-height: calc(min(100vw - 40px, 400px) * 1.25 + 220px);
   color-scheme: light;
 }
 
@@ -127,7 +126,7 @@ a:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; border-ra
 .followers li span { color: var(--olive); font-weight: 800; }
 .video-intro { margin-top: 18px; color: var(--olive); font-size: 1.125rem; line-height: 1.2; font-weight: 700; }
 .video-slots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 8px; }
-.video-item { min-width: 0; margin: 0; }
+.video-item { min-width: 0; margin: 0; container-type: inline-size; }
 .reel-link { position: relative; display: block; width: 100%; aspect-ratio: 9 / 16; overflow: hidden; border-radius: 12px; background: var(--paper); text-decoration: none; }
 .reel-link img { width: 100%; height: 100%; object-fit: cover; }
 .reel-play { position: absolute; left: 50%; top: 50%; width: 42px; height: 42px; transform: translate(-50%, -50%); border-radius: 50%; background: rgb(55 69 28 / 88%); }
@@ -135,8 +134,9 @@ a:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; border-ra
 .reel-label { position: absolute; inset: auto 0 0; padding: 26px 9px 8px; color: #fff; font-size: .75rem; line-height: 1.2; text-align: center; background: linear-gradient(transparent, rgb(0 0 0 / 75%)); }
 .video-item figcaption { margin-top: 5px; color: var(--mute); font-size: .8125rem; line-height: 1.25; text-align: center; }
 .reel-disclosure { margin-top: 8px; color: var(--mute); font-size: .8125rem; line-height: 1.3; }
-.video-item.is-playing { grid-column: 1 / -1; }
-.reel-frame { display: block; width: 100%; max-width: 400px; height: var(--reel-player-height); margin-inline: auto; border: 0; border-radius: 12px; background: var(--paper); }
+/* Instagram's player needs about 326 px. Narrow screens: the playing video moves to the top of the grid, full width. */
+.video-item.is-playing { grid-column: 1 / -1; order: -1; }
+.reel-frame { display: block; width: 100%; max-width: 400px; height: 720px; height: calc(min(100cqw, 400px) * 1.25 + 220px); margin-inline: auto; border: 0; border-radius: 12px; background: var(--paper); }
 
 /* What we do */
 .trio { margin-top: 14px; display: grid; gap: 10px; }
@@ -323,6 +323,10 @@ a:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; border-ra
 
 @media (min-width: 900px) {
   .video-slots { gap: 16px; }
+}
+/* From 1100 px each column is at least 329 px wide, so the player stays in its own card. */
+@media (min-width: 1100px) {
+  .video-item.is-playing { grid-column: auto; order: 0; }
 }
 
 @media (min-width: 1000px) {
