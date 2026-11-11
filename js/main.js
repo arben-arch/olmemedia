@@ -47,6 +47,31 @@
     });
   });
 
+  // Arrows under Our work (shown only for a mouse): move the row by one card; dimmed at either end.
+  const track = document.querySelector('.reel-track');
+  const prev = document.querySelector('.reel-prev');
+  const next = document.querySelector('.reel-next');
+  if (track && prev && next) {
+    const step = () => {
+      const card = track.querySelector('.reel');
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return card ? card.offsetWidth + gap : track.clientWidth * 0.8;
+    };
+    const update = () => {
+      prev.setAttribute('aria-disabled', String(track.scrollLeft <= 2));
+      next.setAttribute('aria-disabled', String(track.scrollLeft >= track.scrollWidth - track.clientWidth - 2));
+    };
+    const go = (dir, button) => {
+      if (button.getAttribute('aria-disabled') === 'true') return;
+      track.scrollBy({ left: dir * step(), behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+    };
+    prev.addEventListener('click', () => go(-1, prev));
+    next.addEventListener('click', () => go(1, next));
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
   closeButton.addEventListener('click', closeDialog);
   dialog.addEventListener('click', (event) => {
     if (event.target === dialog) closeDialog();
