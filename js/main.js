@@ -72,6 +72,42 @@
     update();
   }
 
+  // Browsers without scroll-driven CSS (Safari before 26, older iPhones): light up the card nearest the middle
+  // of the row as it scrolls, as newer browsers do in CSS, instead of always the 4th card (2026-11-13).
+  const scrollDriven = window.CSS && typeof CSS.supports === 'function' && CSS.supports('animation-timeline', 'view()');
+  if (track && !scrollDriven) {
+    const cards = [...track.querySelectorAll('.reel')];
+    let queued = false;
+    const focus = () => {
+      queued = false;
+      const box = track.getBoundingClientRect();
+      const middle = box.left + box.width / 2;
+      let best = 0;
+      let bestDistance = Infinity;
+      cards.forEach((card, i) => {
+        const r = card.getBoundingClientRect();
+        const distance = Math.abs(r.left + r.width / 2 - middle);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          best = i;
+        }
+      });
+      cards.forEach((card, i) => {
+        card.classList.toggle('reel-main', i === best);
+        card.classList.toggle('reel-left', i < best);
+        card.classList.toggle('reel-right', i > best);
+      });
+    };
+    const queue = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(focus);
+    };
+    track.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    focus();
+  }
+
   closeButton.addEventListener('click', closeDialog);
   dialog.addEventListener('click', (event) => {
     if (event.target === dialog) closeDialog();
