@@ -67,6 +67,18 @@
     };
     prev.addEventListener('click', () => go(-1, prev));
     next.addEventListener('click', () => go(1, next));
+    // Keyboard: Chrome leaves a half-visible card where it is when it takes focus, so the 4th card was cut off at
+    // the right edge on a computer. Bring a keyboard-focused card that is not fully visible to the middle (2026-11-13).
+    track.addEventListener('focusin', (event) => {
+      const card = event.target.closest('.reel');
+      let keyboard = true;
+      try { keyboard = event.target.matches(':focus-visible'); } catch (error) { /* old browsers: treat as keyboard */ }
+      if (!card || !keyboard) return;
+      const r = card.getBoundingClientRect();
+      const box = track.getBoundingClientRect();
+      if (r.left >= box.left && r.right <= box.right) return;
+      track.scrollBy({ left: r.left + r.width / 2 - (box.left + box.width / 2), behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+    });
     track.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
     update();
